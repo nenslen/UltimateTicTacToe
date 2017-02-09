@@ -10,7 +10,7 @@
 
 			// 3 Large tiles
 			for($j = 1; $j <= 3; $j++) {
-				echo '<div class="largeTile" id="' . $id1 . '">';
+				echo '<div class="largeTile validBoard" id="' . $id1 . '">';
 
 				// 3 Small rows
 				$id2 = 1;
@@ -19,20 +19,15 @@
 
 					// 3 Small tiles
 					for($l = 1; $l <= 3; $l++) {
-						//echo '<div class="tile" id="' . $id1 . $id2++ .'">X</div>';
-						echo '<div class="tile" id="' . $id1 . $id2++ .'">X</div>';
+						echo '<div class="tile validTile" id="' . $id1 . $id2++ .'"></div>';
 					}
-
 					echo '</div>';
 				}
-
 				$id1++;
 				echo '</div>';
 			}
-
 			echo '</div>';
 		}
-
 		echo '</div>';
 	}
 ?>

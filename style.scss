@@ -50,6 +50,18 @@ h1 {
 }
 
 
+.player1 {
+	box-shadow: 0 0 20px $player1Color;
+	pointer-events: none;
+}
+
+
+.player2 {
+	box-shadow: 0 0 20px $player2Color;
+	pointer-events: none;
+}
+
+
 .row {
     display: flex;
 }

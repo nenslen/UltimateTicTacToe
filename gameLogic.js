@@ -21,6 +21,14 @@ $(document).ready(function() {
 		nextBoard = $(this).attr("id").substring(1);
 
 		boards[clickedTile - 1].performTurn(nextBoard, currentPlayer);
+
+		console.log(boards[clickedTile - 1].checkWin());
+		switch(boards[clickedTile - 1].checkWin()) {
+
+			case 'X':
+				$("#" + clickedTile + ".largeTile").addClass("player1");
+				break;		
+		}
 		swapTurns();
 		refreshBoards();
 

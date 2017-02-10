@@ -11,11 +11,11 @@ function TicTacToe() {
 
 
 	this.reset = function() {
-		currentPlayer = 'X';
+		this.currentPlayer = 'X';
 		for(var i = 1; i <= 9; i++) {
 			this.board[i - 1] = 'N';
 		}
-		gameOver = false;
+		this.gameOver = false;
 	};
 	
 
@@ -44,13 +44,13 @@ function TicTacToe() {
 	this.checkWin = function() {
 
 		// Check for winning player
-		for(var i = 0; i < winningCombinations.length; i++) {
-			var tile1 = board[winningCombinations[i][0]];
-			var tile2 = board[winningCombinations[i][1]];
-			var tile3 = board[winningCombinations[i][2]];
+		for(var i = 0; i < this.winningCombinations.length; i++) {
+			var tile1 = this.board[this.winningCombinations[i][0]];
+			var tile2 = this.board[this.winningCombinations[i][1]];
+			var tile3 = this.board[this.winningCombinations[i][2]];
 
 			if(tile1 == tile2 && tile2 == tile3 && tile1 != 'N') {
-				gameOver = true;
+				this.gameOver = true;
 				return tile1;
 			}
 		}
@@ -58,14 +58,14 @@ function TicTacToe() {
 
 		// Check for all tiles used
 		for(var i = 0; i < 9; i++) {
-			if(board[i] == 'N') {
+			if(this.board[i] == 'N') {
 				return 'N';
 			}
 		}
 
 
 		// No winners and all tiles are used
-		gameOver = true;
+		this.gameOver = true;
 		return 'T'
 	};
 };

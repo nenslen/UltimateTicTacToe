@@ -1,8 +1,9 @@
 $(document).ready(function() {
-	var mainBoard;// = TicTacToe;
+	var mainBoard;
 	var boards = new Array(9);
 	var nextBoard = 0; // The next board that must be played on (0 = any)
 	var	currentPlayer = 'X';
+	var justClicked = false;
 
 
 	// Initialize the boards
@@ -14,26 +15,72 @@ $(document).ready(function() {
 	}
 
 
+
+
 	$('.tile').click(function() {
+		justClicked = true;
+
+		// Set the text of the tile to 'X' or 'O'
 		$(this).html(currentPlayer);
 		
-		clickedTile = $(this).attr("id").substring(0, 1);
-		nextBoard = $(this).attr("id").substring(1);
 
-		boards[clickedTile - 1].performTurn(nextBoard, currentPlayer);
+		// Get the board/tile that was clicked
+		board = $(this).attr("id").substring(0, 1); // clickedTile
+		tile = $(this).attr("id").substring(1); // nextBoard
+		nextBoard = tile;
 
-		console.log(boards[clickedTile - 1].checkWin());
-		switch(boards[clickedTile - 1].checkWin()) {
+		// Perform the turn on the tile
+		boards[board - 1].performTurn(tile, currentPlayer);
 
+
+		// Set the winner of the clicked board
+		var winner = "neutral";
+		switch(boards[board - 1].checkWin()) {
 			case 'X':
-				$("#" + clickedTile + ".largeTile").addClass("player1");
+				winner = "winnerX";
 				break;		
+			case 'O':
+				winner = "winnerO";
+				break;
+			case 'T':
+				winner = "tie";
+				break;
 		}
+
+
+		// Color the board and its tiles
+		if(winner != "neutral") {
+			$("#" + board + ".largeTile").addClass(winner);
+			for(var i = 1; i <= 9; i++) {
+				$("#" + board + "" + i + ".tile").addClass(winner);
+			}
+		}
+		$("#" + board + "" + tile + ".tile").addClass("player" + currentPlayer);
+		
+
+		// Finish up the turn
+		$(this).html(currentPlayer);
 		swapTurns();
 		refreshBoards();
-
 		$("#currentTurn").html("It's " + currentPlayer + "'s Turn");
 	});
+
+
+
+
+	$(".tile").hover(function() {
+			$(this).html(currentPlayer);
+			$(this).addClass("hover" + currentPlayer);
+		}, function() {
+			if(justClicked === false) {
+				$(this).html("");
+				$(this).removeClass("hoverX");
+				$(this).removeClass("hoverO");
+			}
+			justClicked = false;
+	});
+
+
 
 
 	var swapTurns = function() {
@@ -42,12 +89,16 @@ $(document).ready(function() {
 	};
 
 
+
+
 	// Enable/disable the boards that are available to be played on
 	var refreshBoards = function() {
 		
 		// Disable all boards/tiles
-		$(".largeTile").removeClass("validBoard");
+		$(".largeTile").removeClass("validBoardX");
+		$(".largeTile").removeClass("validBoardO");
 		$(".tile").removeClass("validTile");
+		$(".tile").removeClass("validBackground");
 
 
 		// Enable valid board(s)
@@ -56,20 +107,23 @@ $(document).ready(function() {
 			// Enable other boards if the next board to be played on is invalid
 			for(var i = 1; i <= 9; i++) {
 				if(boards[i - 1].gameOver === false) {
-					$("#" + i + ".largeTile").addClass("validBoard");
+					$("#" + i + ".largeTile").addClass("validBoard" + currentPlayer);
 					enableBoard(i);
 				}
 			}
 		} else {
-			$("#" + nextBoard + ".largeTile").addClass("validBoard");
+			$("#" + nextBoard + ".largeTile").addClass("validBoard" + currentPlayer);
 			enableBoard(nextBoard);
 		}
 	}
 
 
+
+
 	// Enables a board and any valid tiles on it
 	var enableBoard = function(board) {
 		for(var i = 1; i <= 9; i++) {
+			$("#" + board + "" + i + ".tile").addClass("validBackground");
 			if(boards[board - 1].isValidMove(i) === true) {
 				$("#" + board + "" + i + ".tile").addClass("validTile");
 			}

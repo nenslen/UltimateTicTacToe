@@ -1,6 +1,9 @@
 $tileColor: #b3b3b3;
-$player1Color: #ccffff;
-$player2Color: #ffb3b3;
+$playerXColor: blue;//#ccffff;
+$playerOColor: green;//#ffb3b3;
+$playerXColor: darken(#ccffff, 25%);
+$playerOColor: darken(#ffb3b3, 15%);
+
 
 
 html, body {
@@ -50,18 +53,6 @@ h1 {
 }
 
 
-.player1 {
-	box-shadow: 0 0 20px $player1Color;
-	pointer-events: none;
-}
-
-
-.player2 {
-	box-shadow: 0 0 20px $player2Color;
-	pointer-events: none;
-}
-
-
 .row {
     display: flex;
 }
@@ -69,8 +60,7 @@ h1 {
 
 .tile {
 	transition: transform 0.1s;
-
-	background-color: white;
+	background-color: darken(white, 10%);
 	user-select: none;
 	pointer-events: none;
     display: flex;
@@ -78,8 +68,7 @@ h1 {
     height: 75px;
     border: 1px solid $tileColor;
     border-bottom: 3px solid $tileColor;
-    color: $tileColor;
-    font-size: 2em;
+    font-size: 4em;
     font-weight: 100;
     justify-content: center; // Center horizontally;
     align-items: center;     // Center vertically;
@@ -97,21 +86,71 @@ h1 {
 }
 
 
-.validBoard {
-	box-shadow: 0 0 20px #cd0e12;
-	animation-name: tileAnimation;
-	animation: tileAnimation 2.5s infinite linear;
-	animation-delay: 1.5s;
+.hoverX {
+    color: $playerXColor;
+}
+
+
+.hoverO {
+    color: $playerOColor;
+}
+
+
+.playerX {
+    color: $playerXColor;
+}
+
+
+.playerO {
+    color: $playerOColor;
+}
+
+
+.winnerX {
+    transition: background-color 0.5s;
+    background-color: darken($playerXColor, 22%);
+}
+
+
+.winnerO {
+    transition: background-color 0.5s;
+    background-color: darken($playerOColor, 20%);
+}
+
+
+.validBoardX {
+    box-shadow: 0 0 20px $playerXColor;
+    animation: validX 2.5s infinite linear;
+    animation-delay: 1.5s;
+}
+
+
+.validBoardO {
+    box-shadow: 0 0 20px $playerOColor;
+    animation: validO 2.5s infinite linear;
+    animation-delay: 1.5s;
 }
 
 
 .validTile {
 	pointer-events: auto;
+    
 }
 
 
-@keyframes tileAnimation {
-    0% { box-shadow: 0 0 20px #cd0e12; }
-    50% { box-shadow: 0 0 6px #cd0e12;; }
-    100% { box-shadow: 0 0 20px #cd0e12;; }
+.validBackground {
+    background-color: white;
+}
+
+
+@keyframes validX {
+    0% { box-shadow: 0 0 20px $playerXColor; }
+    50% { box-shadow: 0 0 6px $playerXColor; }
+    100% { box-shadow: 0 0 20px $playerXColor; }
+}
+
+@keyframes validO {
+    0% { box-shadow: 0 0 20px $playerOColor; }
+    50% { box-shadow: 0 0 6px $playerOColor; }
+    100% { box-shadow: 0 0 20px $playerOColor; }
 }

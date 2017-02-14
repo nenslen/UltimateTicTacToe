@@ -10,6 +10,7 @@ html, body {
   	height : 100%;
   	font-family: 'Open Sans', sans-serif;
   	text-align: center;
+    //background-color: #111;
 }
 
 
@@ -31,7 +32,7 @@ h1 {
 	vertical-align: center;
 	flex-wrap: wrap;
 	align-content: center;
-	
+	margin-bottom: 50px;
 }
 
 
@@ -107,14 +108,26 @@ h1 {
 
 
 .winnerX {
+    color: $playerXColor;
     transition: background-color 0.5s;
     background-color: darken($playerXColor, 22%);
+    border-color: darken($playerXColor, 30%);
 }
 
 
 .winnerO {
+    color: $playerOColor;
     transition: background-color 0.5s;
     background-color: darken($playerOColor, 20%);
+    border-color: darken($playerOColor, 30%);
+}
+
+
+.tie {
+    color: lighten($tileColor, 5%);
+    transition: background-color 0.5s;
+    background-color: darken($tileColor, 5%);
+    border-color: darken($tileColor, 15%);
 }
 
 

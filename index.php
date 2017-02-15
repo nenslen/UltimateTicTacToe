@@ -14,6 +14,7 @@
 <body>
 	<h1>Ultimate Tic Tac Toe</h1>
 	<h1 id="currentTurn">It's X's Turn</h1>
+	<div id="startButton">Start</div>
 	<div id="game">
 		<?php drawBoard(); ?>
 	</div>

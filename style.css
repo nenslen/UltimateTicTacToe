@@ -1,11 +1,40 @@
 html, body {
   height: 100%;
   font-family: 'Open Sans', sans-serif;
-  text-align: center; }
+  text-align: center;
+  background-color: #406abf;
+  color: white; }
 
 h1 {
   margin: 25px;
   font-size: 3em; }
+
+#startButton {
+  transition: transform 0.1s;
+  background-color: #359;
+  user-select: none;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 25px;
+  width: calc(100% * (1/3));
+  color: white;
+  height: 75px;
+  border: 1px solid #264073;
+  border-bottom: 3px solid #264073;
+  font-size: 2em;
+  font-weight: 100;
+  justify-content: center;
+  align-items: center; }
+  #startButton:hover {
+    background-color: #406abf;
+    cursor: pointer;
+    transform: translate(0px, -2px); }
+  #startButton:active {
+    background-color: #3960ac;
+    transform: translate(0px, 3px);
+    box-shadow: inset -1px -1px 10px 1px #264073;
+    border-bottom: none; }
 
 #currentTurn {
   font-size: 2.5em; }
@@ -20,6 +49,7 @@ h1 {
   margin-bottom: 50px; }
 
 .board {
+  background-color: #f7f7f7;
   width: 100%;
   max-width: 1000px;
   border: 1px solid #b3b3b3; }

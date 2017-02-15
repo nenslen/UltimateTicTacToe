@@ -1,4 +1,6 @@
 $tileColor: #b3b3b3;
+$buttonColor: #359;
+$bgColor: lighten(#359, 10%);
 $playerXColor: blue;//#ccffff;
 $playerOColor: green;//#ffb3b3;
 $playerXColor: darken(#ccffff, 25%);
@@ -10,13 +12,48 @@ html, body {
   	height : 100%;
   	font-family: 'Open Sans', sans-serif;
   	text-align: center;
-    //background-color: #111;
+    background-color: $bgColor;
+    color: white;
 }
 
 
 h1 {
 	margin: 25px;
 	font-size: 3em;
+}
+
+
+#startButton {
+    transition: transform 0.1s;
+    background-color: $buttonColor;//darken(white, 10%);
+    user-select: none;
+    //pointer-events: none;
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 25px;
+    width: calc(100% * (1/3));
+    color: white;
+    height: 75px;
+    border: 1px solid darken($buttonColor, 10%);
+    border-bottom: 3px solid darken($buttonColor, 10%);
+    font-size: 2em;
+    font-weight: 100;
+    justify-content: center; // Center horizontally;
+    align-items: center;     // Center vertically;
+
+    &:hover {
+        background-color: lighten($buttonColor, 10%);
+        cursor: pointer;
+        transform: translate(0px, -2px);
+    }
+
+    &:active {
+        background-color: lighten($buttonColor, 5%);
+        transform: translate(0px, 3px);
+        box-shadow: inset -1px -1px 10px 1px darken($buttonColor, 10%);
+        border-bottom: none;
+    }
 }
 
 
@@ -37,6 +74,7 @@ h1 {
 
 
 .board {
+    background-color: #f7f7f7;
 	width: 100%;
 	max-width: 1000px;
 	border: 1px solid $tileColor;
@@ -49,7 +87,6 @@ h1 {
   	margin: 15px;
   	width: calc(100% * (1/3));
   	background-color: $tileColor;
-
     transition: box-shadow 0.3s;
 }
 

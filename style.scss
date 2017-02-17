@@ -1,11 +1,10 @@
 $tileColor: #b3b3b3;
 $buttonColor: #359;
 $bgColor: lighten(#359, 10%);
-$playerXColor: blue;//#ccffff;
-$playerOColor: green;//#ffb3b3;
-$playerXColor: darken(#ccffff, 25%);
-$playerOColor: darken(#ffb3b3, 15%);
-
+//$playerXColor: darken(#ccffff, 25%);
+//$playerOColor: darken(#ffb3b3, 15%);
+$playerXColor: lighten(#005c99, 5%);
+$playerOColor: darken(#cc0000, 0%);
 
 
 html, body {
@@ -17,7 +16,7 @@ html, body {
 }
 
 
-h1 {
+h1 { 
 	margin: 25px;
 	font-size: 3em;
 }
@@ -25,9 +24,8 @@ h1 {
 
 #startButton {
     transition: transform 0.1s;
-    background-color: $buttonColor;//darken(white, 10%);
+    background-color: $buttonColor;
     user-select: none;
-    //pointer-events: none;
     display: flex;
     margin-right: auto;
     margin-left: auto;
@@ -111,6 +109,9 @@ h1 {
     justify-content: center; // Center horizontally;
     align-items: center;     // Center vertically;
 
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+
     &:hover {
     	cursor: pointer;
     	transform: translate(0px, -2px);
@@ -147,8 +148,8 @@ h1 {
 .winnerX {
     color: $playerXColor;
     transition: background-color 0.5s;
-    background-color: darken($playerXColor, 22%);
-    border-color: darken($playerXColor, 30%);
+    background-color: darken($playerXColor, 20%);
+    border-color: darken($playerXColor, 25%);
 }
 
 
@@ -156,15 +157,16 @@ h1 {
     color: $playerOColor;
     transition: background-color 0.5s;
     background-color: darken($playerOColor, 20%);
-    border-color: darken($playerOColor, 30%);
+    border-color: darken($playerOColor, 32%);
 }
 
 
 .tie {
-    color: lighten($tileColor, 5%);
+    color: darken($tileColor, 5%);
     transition: background-color 0.5s;
-    background-color: darken($tileColor, 5%);
-    border-color: darken($tileColor, 15%);
+    background-color: darken($tileColor, 25%);
+    border-color: darken($tileColor, 45%);
+    -webkit-text-stroke-color: darken($tileColor, 35%);
 }
 
 

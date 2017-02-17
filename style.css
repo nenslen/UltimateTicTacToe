@@ -78,7 +78,9 @@ h1 {
   font-size: 4em;
   font-weight: 100;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black; }
   .tile:hover {
     cursor: pointer;
     transform: translate(0px, -2px); }
@@ -88,42 +90,43 @@ h1 {
     border-bottom: none; }
 
 .hoverX {
-  color: #4dffff; }
+  color: #006bb3; }
 
 .hoverO {
-  color: #ff6666; }
+  color: #cc0000; }
 
 .playerX {
-  color: #4dffff; }
+  color: #006bb3; }
 
 .playerO {
-  color: #ff6666; }
+  color: #cc0000; }
 
 .winnerX {
-  color: #4dffff;
+  color: #006bb3;
   transition: background-color 0.5s;
-  background-color: #00dbdb;
-  border-color: #00b2b3; }
+  background-color: #002e4d;
+  border-color: #001f33; }
 
 .winnerO {
-  color: #ff6666;
+  color: #cc0000;
   transition: background-color 0.5s;
-  background-color: red;
-  border-color: #cc0000; }
+  background-color: #660000;
+  border-color: #290000; }
 
 .tie {
-  color: silver;
+  color: #a6a6a6;
   transition: background-color 0.5s;
-  background-color: #a6a6a6;
-  border-color: #8d8d8d; }
+  background-color: #737373;
+  border-color: #404040;
+  -webkit-text-stroke-color: #5a5a5a; }
 
 .validBoardX {
-  box-shadow: 0 0 20px #4dffff;
+  box-shadow: 0 0 20px #006bb3;
   animation: validX 2.5s infinite linear;
   animation-delay: 1.5s; }
 
 .validBoardO {
-  box-shadow: 0 0 20px #ff6666;
+  box-shadow: 0 0 20px #cc0000;
   animation: validO 2.5s infinite linear;
   animation-delay: 1.5s; }
 
@@ -135,17 +138,17 @@ h1 {
 
 @keyframes validX {
   0% {
-    box-shadow: 0 0 20px #4dffff; }
+    box-shadow: 0 0 20px #006bb3; }
   50% {
-    box-shadow: 0 0 6px #4dffff; }
+    box-shadow: 0 0 6px #006bb3; }
   100% {
-    box-shadow: 0 0 20px #4dffff; } }
+    box-shadow: 0 0 20px #006bb3; } }
 @keyframes validO {
   0% {
-    box-shadow: 0 0 20px #ff6666; }
+    box-shadow: 0 0 20px #cc0000; }
   50% {
-    box-shadow: 0 0 6px #ff6666; }
+    box-shadow: 0 0 6px #cc0000; }
   100% {
-    box-shadow: 0 0 20px #ff6666; } }
+    box-shadow: 0 0 20px #cc0000; } }
 
 /*# sourceMappingURL=style.css.map */

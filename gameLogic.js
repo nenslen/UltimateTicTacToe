@@ -115,13 +115,19 @@ $(document).ready(function() {
 		// Check if the main board is won
 		switch(mainBoard.checkWin()) {
 			case 'X':
-				$("#currentTurn").html("Player X Wins!");
+				$(".modal-content").css("color", "#006bb3");
+				$(".modal-content").css("border-color", "#006bb3");
+				$(".modal-content").html("<span class='playerLetter'>X</span> Wins!");
 				break;		
 			case 'O':
-				$("#currentTurn").html("Player O Wins!");
+				$(".modal-content").css("color", "#cc0000");
+				$(".modal-content").css("border-color", "#cc0000");
+				$(".modal-content").html("<span class='playerLetter'>O</span> Wins!");
 				break;
 			case 'T':
-				$("#currentTurn").html("It's a tie!");
+				$(".modal-content").css("color", "#a6a6a6");
+				$(".modal-content").css("border-color", "#a6a6a6");
+				$(".modal-content").html("It's a Tie!");
 				break;
 		}
 
@@ -131,6 +137,10 @@ $(document).ready(function() {
 			$(".largeTile").removeClass("validBoardO");
 			$(".tile").removeClass("validTile");
 			$(".tile").removeClass("validBackground");
+
+			$("#startButton").html("Start");
+			$('#modal').css('display','flex');
+			$("#currentTurn").html("It's X's Turn");
 		}
 	});
 
@@ -212,4 +222,14 @@ $(document).ready(function() {
 			}
 		}
 	}
+
+	$(".test").click(function() {
+		$('#modal').css('display','flex');
+	});
+
+
+	// Close the modal when clicked
+	$("#modal").click(function() {
+		$("#modal").css("display", "none");
+	});
 });

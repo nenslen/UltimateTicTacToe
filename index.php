@@ -19,4 +19,7 @@
 		<?php drawBoard(); ?>
 	</div>
 	
+	<div id="modal">
+		<div class="modal-content"><span class="playerLetter">X</span> Wins!</div>
+	</div>
 </body>

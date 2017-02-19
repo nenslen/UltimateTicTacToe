@@ -1,10 +1,8 @@
 $tileColor: #b3b3b3;
 $buttonColor: #359;
 $bgColor: lighten(#359, 10%);
-//$playerXColor: darken(#ccffff, 25%);
-//$playerOColor: darken(#ffb3b3, 15%);
-$playerXColor: lighten(#005c99, 5%);
-$playerOColor: darken(#cc0000, 0%);
+$playerXColor: #006bb3;
+$playerOColor: #cc0000;
 
 
 html, body {
@@ -192,6 +190,55 @@ h1 {
 
 .validBackground {
     background-color: white;
+}
+
+
+#modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    outline: 0;
+    cursor: pointer;
+    background-color: #000000;
+    background-color:rgba(0, 0, 0, 0.5);
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+    vertical-align: center;
+}
+
+
+.modal-content {
+    background-color: white;
+    border: 10px solid;
+    border-color: #a6a6a6;
+    font-size: 5em;
+    color: #a6a6a6;
+    max-width: 1200px;
+    margin: 30px;
+    padding: 50px;
+    outline: 0;
+    display: inline-block;
+
+    -webkit-animation: animatezoom;
+    animation-name: animatezoom;
+    animation-duration: 0.45s;
+}
+
+
+.playerLetter {
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+
+@keyframes animatezoom {
+    from { transform:scale(0) } 
+    to { transform:scale(1) }
 }
 
 

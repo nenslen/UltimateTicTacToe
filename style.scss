@@ -3,6 +3,7 @@ $buttonColor: #359;
 $bgColor: lighten(#359, 10%);
 $playerXColor: #006bb3;
 $playerOColor: #cc0000;
+$gameModeColor: #00804d;
 
 
 html, body {
@@ -14,9 +15,44 @@ html, body {
 }
 
 
-h1 { 
+h1 {
 	margin: 25px;
 	font-size: 3em;
+}
+
+
+.gametype {
+    display: inline-block;
+    font-size: 1.1em;
+
+    input[type=radio] {
+        display: none;
+    }
+
+    input[type=radio] + label {
+        transition: background-color 0.1s;
+        padding: 25px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: block;
+        background-color: $buttonColor;
+        cursor: pointer;
+        border: 1px solid darken($buttonColor, 10%);
+    }
+
+    input[type=radio] + label:hover {
+        background-color: darken($buttonColor, 5%);
+    }
+
+    input[type=radio] + label:active {
+        background-color: darken($buttonColor, 5%);
+    }
+
+    input[type=radio]:checked + label {
+        background-color: $gameModeColor;
+    }
 }
 
 

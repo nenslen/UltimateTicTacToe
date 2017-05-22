@@ -1,12 +1,19 @@
+/*
+	This is the controller that accepts user input and makes changes to the
+	view and the model
+*/
+
 $(document).ready(function() {
 	var mainBoard;
 	var boards = new Array(9);
 	var nextBoard = 0; // The next board that must be played on (0 = any)
 	var	currentPlayer = 'X';
 	var justClicked = false;
+	var botX = new Bot('X');
+	var botO = new Bot('O');
+	var gameMode = "hvh";
 
 
-	
 
 
 	$('#startButton').click(function() {
@@ -25,7 +32,6 @@ $(document).ready(function() {
 		mainBoard.reset();
 		for(var i = 0; i < 9; i++) {
 			boards[i].reset();
-			console.log(boards[i].gameOver);
 		}
 
 
@@ -57,7 +63,40 @@ $(document).ready(function() {
 		currentPlayer = "X";
 		refreshBoards();
 		gameStarted = true;
+		gameMode = $("input[type='radio'][name='gamemoderadio']:checked").val();
+
+
+		// Scroll to the game
+		$('html, body').animate({
+			scrollTop: $("#startButton").offset().top
+		}, 800);
+
+
+		// Continuous play until game is over
+		if(gameMode == "cvc") {
+			for(var i = 0; i < 8; i++) {
+			//while(mainBoard.checkWin() == "N") {
+			
+				// Select next board for bot if there are multiple
+				if(nextBoard == 0) {
+					nextBoard = selectBoard();
+				}
+
+				// Bot decides its move and plays
+				var botMove = "";
+				if(currentPlayer == "X") {
+					botMove = botX.getMove(boards[nextBoard - 1]);
+				} else {
+					botMove = botO.getMove(boards[nextBoard - 1]);
+				}
+				
+				console.log("clicking " + nextBoard + botMove);
+				$("#" + nextBoard + botMove).click();
+			}
+		}
 	});
+
+
 
 
 	$('.tile').click(function() {
@@ -163,6 +202,13 @@ $(document).ready(function() {
 
 
 
+	// Close the modal when clicked
+	$("#modal").click(function() {
+		$("#modal").css("display", "none");
+	});
+
+
+
 
 	var swapTurns = function() {
 		if(currentPlayer == 'X') { currentPlayer = 'O'; }
@@ -223,13 +269,30 @@ $(document).ready(function() {
 		}
 	}
 
+
+
+
+	// Selects a random board number for the bot to play on if multiple boards are available
+	var selectBoard = function() {
+		// Get list of available tiles (boards) on the main board
+		var validBoards = [];
+
+		for(var i = 1; i <= 9; i++) {
+			if(mainBoard.isValidMove) {
+				validBoards.push(i);
+			}
+		}
+
+		// Select a random board from list of random boards
+		var rnd = Math.floor((Math.random() * validBoards.length));
+		console.log(validBoards[rnd])
+		return validBoards[rnd];
+	}
+
+
+
+
 	$(".test").click(function() {
 		$('#modal').css('display','flex');
-	});
-
-
-	// Close the modal when clicked
-	$("#modal").click(function() {
-		$("#modal").css("display", "none");
 	});
 });

@@ -9,6 +9,29 @@ h1 {
   margin: 25px;
   font-size: 3em; }
 
+.gametype {
+  display: inline-block;
+  font-size: 1.1em; }
+  .gametype input[type=radio] {
+    display: none; }
+  .gametype input[type=radio] + label {
+    transition: background-color 0.1s;
+    padding: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: block;
+    background-color: #359;
+    cursor: pointer;
+    border: 1px solid #264073; }
+  .gametype input[type=radio] + label:hover {
+    background-color: #2d4a86; }
+  .gametype input[type=radio] + label:active {
+    background-color: #2d4a86; }
+  .gametype input[type=radio]:checked + label {
+    background-color: #00804d; }
+
 #startButton {
   transition: transform 0.1s;
   background-color: #359;

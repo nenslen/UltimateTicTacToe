@@ -29,11 +29,19 @@
 		<label for="type3">Computer vs Computer</label>
 	</div>
 
-	<div id="startButton">Start</div>
+	<div id="startButton">New Game</div>
 	<div id="game">
 		<?php drawBoard(); ?>
 	</div>
 	
+	<!-- Game speed -->
+	<h2>Game Speed</h2>
+	<div class="range-slider">
+		<input class="range-slider__range" type="range" value="100" min="1" max="200">
+		<span class="range-slider__value">0</span>
+	</div>
+
+
 	<div id="modal">
 		<div class="modal-content"><span class="playerLetter">X</span> Wins!</div>
 	</div>

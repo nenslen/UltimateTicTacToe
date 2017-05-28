@@ -24,7 +24,14 @@ function TicTacToe() {
 	
 
 	this.isValidMove = function(tile) {
-		if(this.board[tile - 1] === 'N') {
+
+		// Make sure tile is within range
+		if(tile < 0 || tile > 9) {
+			return false;
+		}
+
+		// Check if the given tile is open
+		if(this.board[tile - 1] == 'N') {
 			return true;
 		} else {
 			return false;
@@ -46,7 +53,7 @@ function TicTacToe() {
 	 * 'N' = No winner yet
 	 */
 	this.checkWin = function() {
-
+		//console.log(this.winningCombinations[0][1]);
 		// Check for winning player
 		for(var i = 0; i < this.winningCombinations.length; i++) {
 			var tile1 = this.board[this.winningCombinations[i][0]];
@@ -70,6 +77,6 @@ function TicTacToe() {
 
 		// No winners and all tiles are used
 		this.gameOver = true;
-		return 'T'
+		return 'T';
 	};
 };

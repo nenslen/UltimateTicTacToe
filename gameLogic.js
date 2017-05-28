@@ -12,12 +12,12 @@ $(document).ready(function() {
 	var botX = new Bot('X');
 	var botO = new Bot('O');
 	var gameMode = "hvh";
-
+	var gameSpeed = 500;
 
 
 
 	$('#startButton').click(function() {
-		$(this).html("Restart");
+		//$(this).html("Restart");
 
 		// Initialize the boards
 		mainBoard = new TicTacToe();
@@ -72,27 +72,11 @@ $(document).ready(function() {
 		}, 800);
 
 
-		// Continuous play until game is over
+		// Tell bots to start playing if game mode is computer vs computer
 		if(gameMode == "cvc") {
-			for(var i = 0; i < 8; i++) {
-			//while(mainBoard.checkWin() == "N") {
-			
-				// Select next board for bot if there are multiple
-				if(nextBoard == 0) {
-					nextBoard = selectBoard();
-				}
-
-				// Bot decides its move and plays
-				var botMove = "";
-				if(currentPlayer == "X") {
-					botMove = botX.getMove(boards[nextBoard - 1]);
-				} else {
-					botMove = botO.getMove(boards[nextBoard - 1]);
-				}
-				
-				console.log("clicking " + nextBoard + botMove);
-				$("#" + nextBoard + botMove).click();
-			}
+			nextBoard = selectBoard();
+			var botMove = botX.getMove(boards[nextBoard - 1]);
+			$("#" + nextBoard + botMove).click();
 		}
 	});
 
@@ -100,7 +84,12 @@ $(document).ready(function() {
 
 
 	$('.tile').click(function() {
-		justClicked = true;
+		
+		// Fixes issues with hovering over tiles
+		if(gameMode == "hvh" || (gameMode == "hvc" && currentPlayer == "X")) {
+			justClicked = true;
+		}
+
 
 		// Set the text of the tile to 'X' or 'O'
 		$(this).html(currentPlayer);
@@ -146,7 +135,7 @@ $(document).ready(function() {
 
 		// Finish up the turn
 		$(this).html(currentPlayer);
-		swapTurns();
+		swapTurns();																		// MAY HAVE TO MOVE THIS BELOW THE VIEW UPDATE. OTHERWISE THE BOTS WILL JUST PLAY UNTIL THE GAME IS OVER BEFORE UPDATING THE VIEW
 		refreshBoards();
 		$("#currentTurn").html("It's " + currentPlayer + "'s Turn");
 
@@ -177,15 +166,43 @@ $(document).ready(function() {
 			$(".tile").removeClass("validTile");
 			$(".tile").removeClass("validBackground");
 
-			$("#startButton").html("Start");
+			//$("#startButton").html("Start");
 			$('#modal').css('display','flex');
 			$("#currentTurn").html("It's X's Turn");
+		}
+
+
+		// Tell the bot(s) to play
+		if(mainBoard.gameOver == false && gameMode == "hvc" && currentPlayer == "O" || gameMode == "cvc") {
+
+			// Select next board for bot if there are multiple
+			if(mainBoard.isValidMove(nextBoard) == false) {
+				nextBoard = selectBoard();
+			}
+
+
+			// Bot decides its move and plays
+			var botMove = "";
+			if(currentPlayer == "X") {
+				if(gameMode == "cvc") {
+					botMove = botX.getMove(boards[nextBoard - 1]);
+				}
+			} else {
+				botMove = botO.getMove(boards[nextBoard - 1]);
+			}
+
+
+			// Simulate tile click for bot's move, with a delay
+			function myFunction() {
+				$("#" + nextBoard + botMove).click();
+			}
+			setTimeout(myFunction, gameSpeed);
 		}
 	});
 
 
 
-
+	// Show / hide player letter on tiles
 	$(".tile").hover(function() {
 			// Show player letter on hover
 			$(this).html(currentPlayer);
@@ -210,7 +227,9 @@ $(document).ready(function() {
 
 
 
+	// Swaps the current player
 	var swapTurns = function() {
+		// Swap current player
 		if(currentPlayer == 'X') { currentPlayer = 'O'; }
 		else { currentPlayer = 'X'; }
 	};
@@ -243,7 +262,7 @@ $(document).ready(function() {
 		// Enable valid board(s)
 		if(boards[nextBoard - 1].gameOver === true) {
 
-			// Enable other boards if the next board to be played on is invalid
+			// Enable all valid boards if the next board to be played on is invalid
 			for(var i = 1; i <= 9; i++) {
 				if(boards[i - 1].gameOver === false) {
 					$("#" + i + ".largeTile").addClass("validBoard" + currentPlayer);
@@ -259,12 +278,16 @@ $(document).ready(function() {
 
 
 
-	// Enables a board and any valid tiles on it
+	// Enables a board and any valid tiles on it (unless it's a bot's turn)
 	var enableBoard = function(board) {
+		//console.log("currentPlayer=" + currentPlayer);
+		//console.log(gameMode == "hvc" && currentPlayer == "X");
 		for(var i = 1; i <= 9; i++) {
 			$("#" + board + "" + i + ".tile").addClass("validBackground");
 			if(boards[board - 1].isValidMove(i) === true) {
-				$("#" + board + "" + i + ".tile").addClass("validTile");
+				if((gameMode == "hvc" && currentPlayer == "X") || gameMode == "hvh") {
+					$("#" + board + "" + i + ".tile").addClass("validTile");
+				}
 			}
 		}
 	}
@@ -274,18 +297,24 @@ $(document).ready(function() {
 
 	// Selects a random board number for the bot to play on if multiple boards are available
 	var selectBoard = function() {
+
+		if(mainBoard.gameOver == true) { return; }
+
 		// Get list of available tiles (boards) on the main board
 		var validBoards = [];
 
 		for(var i = 1; i <= 9; i++) {
-			if(mainBoard.isValidMove) {
+			if(mainBoard.isValidMove(i)) {
 				validBoards.push(i);
 			}
 		}
 
 		// Select a random board from list of random boards
-		var rnd = Math.floor((Math.random() * validBoards.length));
-		console.log(validBoards[rnd])
+		var rnd = Math.floor(Math.random() * validBoards.length);
+		console.log("selecting board...");
+		console.log(validBoards);
+		console.log(rnd);
+		console.log(validBoards[rnd]);
 		return validBoards[rnd];
 	}
 
@@ -295,4 +324,30 @@ $(document).ready(function() {
 	$(".test").click(function() {
 		$('#modal').css('display','flex');
 	});
+
+
+
+
+	//test test test
+	var rangeSlider = function(){
+  		var slider = $('.range-slider'),
+      	range = $('.range-slider__range'),
+      	value = $('.range-slider__value');
+    
+  		slider.each(function(){
+
+    		value.each(function(){
+      			var value = $(this).prev().attr('value');
+      			$(this).html(value + "%");
+    		});
+
+    		range.on('input', function(){
+      			$(this).next(value).html(this.value + "%");
+      			gameSpeed = 1000 - (this.value * 5);
+      			console.log(gameSpeed);
+    		});
+  		});
+	};
+
+	rangeSlider();
 });

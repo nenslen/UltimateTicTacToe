@@ -42,9 +42,9 @@ function Bot(player) {
 		
 		// Find combination with 2 player tiles and 1 neutral tile
 		for(var i = 0; i < this.winningCombinations.length; i++) {
-			var tile1 = board[this.winningCombinations[i][0]];
-			var tile2 = board[this.winningCombinations[i][1]];
-			var tile3 = board[this.winningCombinations[i][2]];
+			var tile1 = board.board[this.winningCombinations[i][0]];
+			var tile2 = board.board[this.winningCombinations[i][1]];
+			var tile3 = board.board[this.winningCombinations[i][2]];
 			var neutralIndex = 0;
 			var tileCount = 0;
 
@@ -62,11 +62,13 @@ function Bot(player) {
 
 			// Either return the winning tile index or indicate that there is none
 			if(tileCount == 2 && neutralIndex != 0) {
-				return neutralIndex;
-			} else {
-				return -1;
+				return neutralIndex + 1;
 			}
 		}
+
+		
+		// Move not possible
+		return -1;
 	};
 
 
@@ -75,9 +77,9 @@ function Bot(player) {
 		
 		// Find combination with 2 enemy tiles and 1 neutral tile
 		for(var i = 0; i < this.winningCombinations.length; i++) {
-			var tile1 = board[this.winningCombinations[i][0]];
-			var tile2 = board[this.winningCombinations[i][1]];
-			var tile3 = board[this.winningCombinations[i][2]];
+			var tile1 = board.board[this.winningCombinations[i][0]];
+			var tile2 = board.board[this.winningCombinations[i][1]];
+			var tile3 = board.board[this.winningCombinations[i][2]];
 			var neutralIndex = 0;
 			var tileCount = 0;
 			var enemy = "X";
@@ -97,11 +99,12 @@ function Bot(player) {
 
 			// Either return the blocking tile index or indicate that there is none
 			if(tileCount == 2 && neutralIndex != 0) {
-				return neutralIndex;
-			} else {
-				return -1;
+				return neutralIndex + 1;
 			}
 		}
+
+		// Move not possible
+		return -1;
 	};
 
 
@@ -110,12 +113,13 @@ function Bot(player) {
 		
 		// Find combination with 2 player tiles and 1 neutral tile
 		for(var i = 0; i < this.winningCombinations.length; i++) {
-			var tile1 = board[this.winningCombinations[i][0]];
-			var tile2 = board[this.winningCombinations[i][1]];
-			var tile3 = board[this.winningCombinations[i][2]];
+			var tile1 = board.board[this.winningCombinations[i][0]];
+			var tile2 = board.board[this.winningCombinations[i][1]];
+			var tile3 = board.board[this.winningCombinations[i][2]];
 			var neutralIndex = 0;
 			var tileCount = 0;
 
+			//console.log(board.board[this.winningCombinations[i][0]]);
 			/*
 			console.log("Winning");
 			console.log(this.winningCombinations);
@@ -124,6 +128,15 @@ function Bot(player) {
 			console.log("Winning3");
 			console.log(this.winningCombinations[i][1]);
 			*/
+
+			/*
+			console.log("tile1=" + tile1);
+			console.log("tile2=" + tile2);
+			console.log("tile3=" + tile3);
+			*/
+
+			//console.log("neutralIndex=" + neutralIndex);
+			//console.log("tileCount=" + tileCount);
 
 			// Count number of tiles that this bot owns, and find position of a neutral tile
 			if(tile1 == player) { tileCount++; }
@@ -136,13 +149,14 @@ function Bot(player) {
 			if(tile3 == 'N')    { neutralIndex = this.winningCombinations[i][2]; }
 
 
-			// Either return the winning tile index or indicate that there is none
+			// Return the tile if found
 			if(tileCount == 1 && neutralIndex != 0) {
-				return neutralIndex;
-			} else {
-				return -1;
+				return neutralIndex + 1;
 			}
 		}
+
+		// Move not possible
+		return -1;
 	};
 
 

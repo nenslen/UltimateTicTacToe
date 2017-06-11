@@ -3,36 +3,38 @@
 2. 
 */
 
-function Bot(player) {
+function Bot(player, level) {
 
 	this.player = player;
+	this.level = level;
 	this.winningCombinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
 
 	// Returns a tile index where the bot wants to play
 	this.getMove = function(board) {
-		/* Bot will try to:
+		/* Based on level, bot will try to:
 		1) Find a winning move
 		2) Find a blocking move
 		3) Find a move to get 2 tiles in the same line
 		4) Select a random tile
-		*/ 
+		*/
+
+		if(this.level == 1) {
+			return this.findRandomMove(board);
+		}
+
 		if(this.findWinMove(board) != -1) {
-			console.log("Winning move");
 			return this.findWinMove(board);
 		}
 
 		if(this.findBlockMove(board) != -1) {
-			console.log("Blocking move");
 			return this.findBlockMove(board);
 		}
 
 		if(this.findDoubleMove(board) != -1) {
-			console.log("Double move");
 			return this.findDoubleMove(board);
 		}
 
-		console.log("Random move");
 		return this.findRandomMove(board);
 	};
 
@@ -45,7 +47,7 @@ function Bot(player) {
 			var tile1 = board.board[this.winningCombinations[i][0]];
 			var tile2 = board.board[this.winningCombinations[i][1]];
 			var tile3 = board.board[this.winningCombinations[i][2]];
-			var neutralIndex = 0;
+			var neutralIndex = -1;
 			var tileCount = 0;
 
 
@@ -61,7 +63,7 @@ function Bot(player) {
 
 
 			// Either return the winning tile index or indicate that there is none
-			if(tileCount == 2 && neutralIndex != 0) {
+			if(tileCount == 2 && neutralIndex != -1) {
 				return neutralIndex + 1;
 			}
 		}
@@ -80,7 +82,7 @@ function Bot(player) {
 			var tile1 = board.board[this.winningCombinations[i][0]];
 			var tile2 = board.board[this.winningCombinations[i][1]];
 			var tile3 = board.board[this.winningCombinations[i][2]];
-			var neutralIndex = 0;
+			var neutralIndex = -1;
 			var tileCount = 0;
 			var enemy = "X";
 			if(player == "X") { enemy = "O"; }
@@ -98,7 +100,7 @@ function Bot(player) {
 
 
 			// Either return the blocking tile index or indicate that there is none
-			if(tileCount == 2 && neutralIndex != 0) {
+			if(tileCount == 2 && neutralIndex != -1) {
 				return neutralIndex + 1;
 			}
 		}
@@ -116,7 +118,7 @@ function Bot(player) {
 			var tile1 = board.board[this.winningCombinations[i][0]];
 			var tile2 = board.board[this.winningCombinations[i][1]];
 			var tile3 = board.board[this.winningCombinations[i][2]];
-			var neutralIndex = 0;
+			var neutralIndex = -1;
 			var tileCount = 0;
 
 			//console.log(board.board[this.winningCombinations[i][0]]);
@@ -150,7 +152,7 @@ function Bot(player) {
 
 
 			// Return the tile if found
-			if(tileCount == 1 && neutralIndex != 0) {
+			if(tileCount == 1 && neutralIndex != -1) {
 				return neutralIndex + 1;
 			}
 		}

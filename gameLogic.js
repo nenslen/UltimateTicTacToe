@@ -9,15 +9,15 @@ $(document).ready(function() {
 	var nextBoard = 0; // The next board that must be played on (0 = any)
 	var	currentPlayer = 'X';
 	var justClicked = false;
-	var botX = new Bot('X');
-	var botO = new Bot('O');
+	var botX;// = new Bot('X');
+	var botO;// = new Bot('O');
 	var gameMode = "hvh";
-	var gameSpeed = 500;
+	var difficulty = 2;
+	var gameSpeed = 800;
 
 
 
 	$('#startButton').click(function() {
-		//$(this).html("Restart");
 
 		// Initialize the boards
 		mainBoard = new TicTacToe();
@@ -48,14 +48,14 @@ $(document).ready(function() {
 		$(".tile").removeClass("playerO");
 		$(".tile").removeClass("hoverX");
 		$(".tile").removeClass("hoverO");
+		$(".tile").removeClass("justClicked");
 
 		$(".largeTile").addClass("validBoardX");
 		$(".largeTile").addClass("validBackground");
 		$(".tile").addClass("validTile");
 		$(".tile").addClass("validBackground");
-
+		//$(".tile").css("pointer-events", "auto");
 		$(".tile").html("");
-		$("#currentTurn").html("It's X's Turn");
 
 
 		// Finalize the reset
@@ -64,6 +64,7 @@ $(document).ready(function() {
 		refreshBoards();
 		gameStarted = true;
 		gameMode = $("input[type='radio'][name='gamemoderadio']:checked").val();
+		difficulty = $("input[type='radio'][name='difficultyradio']:checked").val();
 
 
 		// Scroll to the game
@@ -73,7 +74,13 @@ $(document).ready(function() {
 
 
 		// Tell bots to start playing if game mode is computer vs computer
+		if(gameMode == "hvc") {
+			botO = new Bot("O", difficulty);
+		}
+
 		if(gameMode == "cvc") {
+			botO = new Bot("O", difficulty);
+			botX = new Bot("X", difficulty);
 			nextBoard = selectBoard();
 			var botMove = botX.getMove(boards[nextBoard - 1]);
 			$("#" + nextBoard + botMove).click();
@@ -85,6 +92,11 @@ $(document).ready(function() {
 
 	$('.tile').click(function() {
 		
+		if(mainBoard.gameOver == true) {
+			return;
+		}
+
+
 		// Fixes issues with hovering over tiles
 		if(gameMode == "hvh" || (gameMode == "hvc" && currentPlayer == "X")) {
 			justClicked = true;
@@ -93,7 +105,11 @@ $(document).ready(function() {
 
 		// Set the text of the tile to 'X' or 'O'
 		$(this).html(currentPlayer);
-		
+		// Show the bot's move
+		if(mainBoard.gameOver == false && gameMode == "hvc" && currentPlayer == "O" || gameMode == "cvc") {
+			$(this).addClass("justClicked");
+		}
+
 
 		// Get the board/tile that was clicked
 		board = $(this).attr("id").substring(0, 1); // clickedTile
@@ -137,7 +153,7 @@ $(document).ready(function() {
 		$(this).html(currentPlayer);
 		swapTurns();																		// MAY HAVE TO MOVE THIS BELOW THE VIEW UPDATE. OTHERWISE THE BOTS WILL JUST PLAY UNTIL THE GAME IS OVER BEFORE UPDATING THE VIEW
 		refreshBoards();
-		$("#currentTurn").html("It's " + currentPlayer + "'s Turn");
+		//$("#currentTurn").html("It's " + currentPlayer + "'s Turn");
 
 
 		// Check if the main board is won
@@ -145,17 +161,17 @@ $(document).ready(function() {
 			case 'X':
 				$(".modal-content").css("color", "#006bb3");
 				$(".modal-content").css("border-color", "#006bb3");
-				$(".modal-content").html("<span class='playerLetter'>X</span> Wins!");
+				$(".modal-content").html("<span class='playerLetter'>X</span> Wins!</br><span class='smallText'>Click anywhere to continue</span>");
 				break;		
 			case 'O':
 				$(".modal-content").css("color", "#cc0000");
 				$(".modal-content").css("border-color", "#cc0000");
-				$(".modal-content").html("<span class='playerLetter'>O</span> Wins!");
+				$(".modal-content").html("<span class='playerLetter'>O</span> Wins!</br><span class='smallText'>Click anywhere to continue</span>");
 				break;
 			case 'T':
 				$(".modal-content").css("color", "#a6a6a6");
 				$(".modal-content").css("border-color", "#a6a6a6");
-				$(".modal-content").html("It's a Tie!");
+				$(".modal-content").html("It's a Tie!</br><span class='smallText'>Click anywhere to continue</span>");
 				break;
 		}
 
@@ -165,10 +181,7 @@ $(document).ready(function() {
 			$(".largeTile").removeClass("validBoardO");
 			$(".tile").removeClass("validTile");
 			$(".tile").removeClass("validBackground");
-
-			//$("#startButton").html("Start");
 			$('#modal').css('display','flex');
-			$("#currentTurn").html("It's X's Turn");
 		}
 
 
@@ -245,6 +258,7 @@ $(document).ready(function() {
 		$(".largeTile").removeClass("validBoardO");
 		$(".tile").removeClass("validTile");
 		$(".tile").removeClass("validBackground");
+		//$(".tile").css("pointer-events", "none");
 
 
 		// Enable all boards if game is just starting
@@ -280,13 +294,12 @@ $(document).ready(function() {
 
 	// Enables a board and any valid tiles on it (unless it's a bot's turn)
 	var enableBoard = function(board) {
-		//console.log("currentPlayer=" + currentPlayer);
-		//console.log(gameMode == "hvc" && currentPlayer == "X");
 		for(var i = 1; i <= 9; i++) {
 			$("#" + board + "" + i + ".tile").addClass("validBackground");
 			if(boards[board - 1].isValidMove(i) === true) {
 				if((gameMode == "hvc" && currentPlayer == "X") || gameMode == "hvh") {
 					$("#" + board + "" + i + ".tile").addClass("validTile");
+					//$("#" + board + "" + i + ".tile").css("pointer-events", "auto");
 				}
 			}
 		}
@@ -311,10 +324,6 @@ $(document).ready(function() {
 
 		// Select a random board from list of random boards
 		var rnd = Math.floor(Math.random() * validBoards.length);
-		console.log("selecting board...");
-		console.log(validBoards);
-		console.log(rnd);
-		console.log(validBoards[rnd]);
 		return validBoards[rnd];
 	}
 
@@ -326,13 +335,23 @@ $(document).ready(function() {
 	});
 
 
+	$("#showSettings").click(function() {
+		$('#settingsMenu').slideToggle('slow');
+		
+		if($(this).hasClass("is-active") == true) {
+			$(this).removeClass("is-active");
+		} else {
+			$(this).addClass("is-active");
+		}
+	});
+
 
 
 	//test test test
 	var rangeSlider = function(){
-  		var slider = $('.range-slider'),
-      	range = $('.range-slider__range'),
-      	value = $('.range-slider__value');
+  		var slider = $('.gameSpeed_slider'),
+      	range = $('.gameSpeed_range'),
+      	value = $('.gameSpeed_value');
     
   		slider.each(function(){
 
@@ -344,10 +363,10 @@ $(document).ready(function() {
     		range.on('input', function(){
       			$(this).next(value).html(this.value + "%");
       			gameSpeed = 1000 - (this.value * 5);
-      			console.log(gameSpeed);
     		});
   		});
 	};
 
 	rangeSlider();
+	$('#settingsMenu').slideToggle('slow');
 });

@@ -36,26 +36,26 @@ $(document).ready(function() {
 
 
 		// Reset classes
-		$(".largeTile").removeClass("winnerX");
-		$(".largeTile").removeClass("winnerO");
-		$(".largeTile").removeClass("tie");
-		$(".largeTile").removeClass("validBoardX");
-		$(".largeTile").removeClass("validBoardO");
-		$(".tile").removeClass("winnerX");
-		$(".tile").removeClass("winnerO");
-		$(".tile").removeClass("tie");
-		$(".tile").removeClass("playerX");
-		$(".tile").removeClass("playerO");
-		$(".tile").removeClass("hoverX");
-		$(".tile").removeClass("hoverO");
-		$(".tile").removeClass("justClicked");
+		$(".large-tile").removeClass("winnerX");
+		$(".large-tile").removeClass("winnerO");
+		$(".large-tile").removeClass("tie");
+		$(".large-tile").removeClass("validBoardX");
+		$(".large-tile").removeClass("validBoardO");
+		$(".small-tile").removeClass("winnerX");
+		$(".small-tile").removeClass("winnerO");
+		$(".small-tile").removeClass("tie");
+		$(".small-tile").removeClass("playerX");
+		$(".small-tile").removeClass("playerO");
+		$(".small-tile").removeClass("hoverX");
+		$(".small-tile").removeClass("hoverO");
+		$(".small-tile").removeClass("justClicked");
 
-		$(".largeTile").addClass("validBoardX");
-		$(".largeTile").addClass("validBackground");
-		$(".tile").addClass("validTile");
-		$(".tile").addClass("validBackground");
-		//$(".tile").css("pointer-events", "auto");
-		$(".tile").html("");
+		$(".large-tile").addClass("validBoardX");
+		$(".large-tile").addClass("validBackground");
+		$(".small-tile").addClass("validTile");
+		$(".small-tile").addClass("validBackground");
+		$(".small-tile").css("pointer-events", "auto");
+		$(".small-tile").html("&nbsp");
 
 
 		// Finalize the reset
@@ -68,10 +68,11 @@ $(document).ready(function() {
 
 
 		// Scroll to the game
+		/*
 		$('html, body').animate({
 			scrollTop: $("#startButton").offset().top
 		}, 800);
-
+		*/
 
 		// Tell bots to start playing if game mode is computer vs computer
 		if(gameMode == "hvc") {
@@ -90,7 +91,7 @@ $(document).ready(function() {
 
 
 
-	$('.tile').click(function() {
+	$('.small-tile').click(function() {
 		
 		if(mainBoard.gameOver == true) {
 			return;
@@ -141,12 +142,12 @@ $(document).ready(function() {
 
 		// Color the board and its tiles
 		if(winner != "neutral") {
-			$("#" + board + ".largeTile").addClass(winner);
+			$("#" + board + ".large-tile").addClass(winner);
 			for(var i = 1; i <= 9; i++) {
-				$("#" + board + "" + i + ".tile").addClass(winner);
+				$("#" + board + "" + i + ".small-tile").addClass(winner);
 			}
 		}
-		$("#" + board + "" + tile + ".tile").addClass("player" + currentPlayer);
+		$("#" + board + "" + tile + ".small-tile").addClass("player" + currentPlayer);
 		
 
 		// Finish up the turn
@@ -177,10 +178,10 @@ $(document).ready(function() {
 
 		// Disable boards if gameover
 		if(mainBoard.checkWin() !== "N") {
-			$(".largeTile").removeClass("validBoardX");
-			$(".largeTile").removeClass("validBoardO");
-			$(".tile").removeClass("validTile");
-			$(".tile").removeClass("validBackground");
+			$(".large-tile").removeClass("validBoardX");
+			$(".large-tile").removeClass("validBoardO");
+			$(".small-tile").removeClass("validTile");
+			$(".small-tile").removeClass("validBackground");
 			$('#modal').css('display','flex');
 		}
 
@@ -216,14 +217,15 @@ $(document).ready(function() {
 
 
 	// Show / hide player letter on tiles
-	$(".tile").hover(function() {
+	$(".small-tile").hover(function() {
+		console.log('hover');
 			// Show player letter on hover
 			$(this).html(currentPlayer);
 			$(this).addClass("hover" + currentPlayer);
 		}, function() {
 			// Remove player letter on mouse exit
 			if(justClicked === false) {
-				$(this).html("");
+				$(this).html("&nbsp");
 				$(this).removeClass("hoverX");
 				$(this).removeClass("hoverO");
 			}
@@ -254,18 +256,18 @@ $(document).ready(function() {
 	var refreshBoards = function() {
 		
 		// Disable all boards/tiles
-		$(".largeTile").removeClass("validBoardX");
-		$(".largeTile").removeClass("validBoardO");
-		$(".tile").removeClass("validTile");
-		$(".tile").removeClass("validBackground");
-		//$(".tile").css("pointer-events", "none");
+		$(".large-tile").removeClass("validBoardX");
+		$(".large-tile").removeClass("validBoardO");
+		$(".small-tile").removeClass("validTile");
+		$(".small-tile").removeClass("validBackground");
+		$(".small-tile").css("pointer-events", "none");
 
 
 		// Enable all boards if game is just starting
 		if(nextBoard === 0) {
 			for(var i = 1; i <= 9; i++) {
 				if(boards[i - 1].gameOver === false) {
-					$("#" + i + ".largeTile").addClass("validBoard" + currentPlayer);
+					$("#" + i + ".large-tile").addClass("validBoard" + currentPlayer);
 					enableBoard(i);
 				}
 			}
@@ -279,12 +281,12 @@ $(document).ready(function() {
 			// Enable all valid boards if the next board to be played on is invalid
 			for(var i = 1; i <= 9; i++) {
 				if(boards[i - 1].gameOver === false) {
-					$("#" + i + ".largeTile").addClass("validBoard" + currentPlayer);
+					$("#" + i + ".large-tile").addClass("validBoard" + currentPlayer);
 					enableBoard(i);
 				}
 			}
 		} else {
-			$("#" + nextBoard + ".largeTile").addClass("validBoard" + currentPlayer);
+			$("#" + nextBoard + ".large-tile").addClass("validBoard" + currentPlayer);
 			enableBoard(nextBoard);
 		}
 	}
@@ -295,11 +297,11 @@ $(document).ready(function() {
 	// Enables a board and any valid tiles on it (unless it's a bot's turn)
 	var enableBoard = function(board) {
 		for(var i = 1; i <= 9; i++) {
-			$("#" + board + "" + i + ".tile").addClass("validBackground");
+			$("#" + board + "" + i + ".small-tile").addClass("validBackground");
 			if(boards[board - 1].isValidMove(i) === true) {
 				if((gameMode == "hvc" && currentPlayer == "X") || gameMode == "hvh") {
-					$("#" + board + "" + i + ".tile").addClass("validTile");
-					//$("#" + board + "" + i + ".tile").css("pointer-events", "auto");
+					$("#" + board + "" + i + ".small-tile").addClass("validTile");
+					$("#" + board + "" + i + ".small-tile").css("pointer-events", "auto");
 				}
 			}
 		}

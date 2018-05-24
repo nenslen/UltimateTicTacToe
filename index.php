@@ -30,14 +30,14 @@
 					</div>
 
 					<div class="card" id="settings-menu">
-						<!--
+						
 						<span class="item">
 							Game Speed
 							<div class="gameSpeed_slider">
 								<input class="gameSpeed_range" type="range" value="40" min="1" max="200">
 							</div>
 						</span>
-						-->
+						
 
 						<div class="grid grid-2-2-1">
 

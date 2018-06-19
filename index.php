@@ -29,50 +29,58 @@
 						<button class="button button-green" id="startButton">New Game</button>
 					</div>
 
-					<div class="card" id="settings-menu">
-						
-						<span class="item">
-							Game Speed
-							<div class="gameSpeed_slider">
-								<input class="gameSpeed_range" type="range" value="40" min="1" max="200">
-							</div>
-						</span>
-						
+					<div id="settings-menu">
+						<div class="card settings-group">
+							<div class="settings-group-inner">
+								<span class="settings-item-header">Game Options</span>
 
-						<div class="grid grid-2-2-1">
+								<span class="settings-item">
+									<span class="settings-item-header-small">Speed</span>
+									<div class="gameSpeed_slider">
+										<input class="gameSpeed_range" type="range" value="40" min="1" max="200">
+									</div>
+								</span> 
+								
+								<div class="grid grid-2-2-1">
 
-							<!-- Game Mode -->
-							<div>
-								<span class="item">
-									<span class="settings-header">Game Mode</span>
-									<div class="option">
-										<input id="type1" type="radio" name="gamemoderadio" value="hvh" checked>
-										<label for="type1">Human vs Human</label>
-									</div>
-									<div class="option">
-										<input id="type2" type="radio" name="gamemoderadio" value="hvc">
-										<label for="type2">Human vs AI</label>
-									</div>
-									<div class="option">
-										<input id="type3" type="radio" name="gamemoderadio" value="cvc">
-										<label for="type3">AI vs AI</label>
-									</div>
-								</span>
-							</div>
+									<!-- Game Mode -->
+									<div>
+										<span class="settings-item">
+											<span class="settings-item-header-small">Mode</span>
+											<div class="option">
+												<input id="type1" type="radio" name="gamemoderadio" value="hvh" checked>
+												<label for="type1">Human vs Human</label>
+											</div>
+											<div class="option">
+												<input id="type2" type="radio" name="gamemoderadio" value="hvc">
+												<label for="type2">Human vs AI</label>
+											</div>
+											<div class="option">
+												<input id="type3" type="radio" name="gamemoderadio" value="cvc">
+												<label for="type3">AI vs AI</label>
+											</div>
+										</span>
+											
+											
+										</span>
+									</div><!-- end Game Mode -->
 
-							<!-- Difficulty -->
-							<div>
-								<span class="item">
-									<span class="settings-header">Difficulty</span>
-									<div class="option">
-										<input id="level1" type="radio" name="difficultyradio" value="1">
-										<label for="level1">Easy</label>
-									</div>
-									<div class="option">
-										<input id="level2" type="radio" name="difficultyradio" value="2" checked>
-										<label for="level2">Medium</label>
-									</div>
-								</span>
+									<!-- Difficulty -->
+									<div>										
+										<span class="settings-item">
+											<span class="settings-item-header-small">Difficulty</span>
+											<div class="option">
+												<input id="level1" type="radio" name="difficultyradio" value="1">
+												<label for="level1">Easy</label>
+											</div>
+											<div class="option">
+												<input id="level2" type="radio" name="difficultyradio" value="2" checked>
+												<label for="level2">Medium</label>
+											</div>
+										</span>
+									</div><!-- end Difficulty -->
+
+								</div>
 							</div>
 						</div>
 					</div>
